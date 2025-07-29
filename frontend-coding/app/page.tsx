@@ -7,8 +7,10 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PageTitle from "@/components/pageTitle";
+import { useAuthentication } from "@/contexts/authContext";
 
 export default function Home() {
+  const { login } = useAuthentication();
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -18,6 +20,7 @@ export default function Home() {
 
   const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    login();
     router.push("/photos");
   };
 

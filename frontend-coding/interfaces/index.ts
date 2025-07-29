@@ -20,3 +20,9 @@ export interface PhotosI {
   url: string;
   width: number;
 }
+
+export interface AuthContextI {
+  isAuthenticated: boolean;
+  hasAuthenticationLoaded: boolean;
+  login: () => void;
+}
