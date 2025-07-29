@@ -5,24 +5,36 @@ import EmailInput from "@/components/emailInput";
 import PasswordInput from "@/components/passwordInput";
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import PageTitle from "@/components/pageTitle";
 
 export default function Home() {
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
+  const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    router.push("/photos");
+  };
+
   return (
     <DefaultPageStructure>
-      <div className="w-[100%] flex flex-col items-center gap-[2.5rem]">
+      <div className="grow w-[100%] flex flex-col items-center justify-center gap-[2.5rem]">
         <div className="flex flex-col items-center gap-[1.5rem]">
           <Image src="/logo.svg" width={75} height={75} alt="Logo" />
-          <h1 className="font-[700] text-[1.25rem] leading-[1.75rem] text-black">
-            Sign in to your account
-          </h1>
+          <PageTitle text="Sign in to your account" />
         </div>
 
-        <div className="w-[100%] max-w-[20rem] flex flex-col gap-[1.5rem]">
+        <form
+          className="w-[100%] max-w-[20rem] flex flex-col gap-[1.5rem]"
+          onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
+            handleSubmitForm(e)
+          }
+        >
           <EmailInput
             id="email-input"
             name="email-input"
@@ -41,8 +53,8 @@ export default function Home() {
             placeholder="Enter your password"
           />
 
-          <CustomButton buttonText="Sign in" onClick={() => {}} />
-        </div>
+          <CustomButton buttonText="Sign in" />
+        </form>
       </div>
     </DefaultPageStructure>
   );
