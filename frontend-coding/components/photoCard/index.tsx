@@ -2,16 +2,15 @@
 
 import { PhotosI } from "@/interfaces";
 import Image from "next/image";
-import { FaRegStar } from "react-icons/fa";
+import LikePhotoStar from "@/components/likePhotoStar";
 
 const PhotoCard = ({ photo }: { photo: PhotosI }) => {
   return (
     <div className="w-[100%] flex ">
       <div className="w-[100%] flex justify-between gap-[0.75rem]">
-        <div className="flex justify-between gap-[0.75rem]">
-          <div>
-            <FaRegStar className="text-[1.2rem] text-gray" />
-          </div>
+        <div className="flex justify-between items-start gap-[0.75rem]">
+          <LikePhotoStar photo={photo} />
+
           <div className="relative w-[4.6875rem] min-w-[4.6875rem] h-[4.6875rem] min-h-[4.6875rem] rounded-[0.5rem] overflow-hidden">
             <Image
               src={photo.src.portrait}
