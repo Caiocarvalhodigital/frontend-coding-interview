@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import PageTitle from "@/components/pageTitle";
 import { useAuthentication } from "@/contexts/authContext";
 
-export default function Home() {
+const Home = () => {
   const { login } = useAuthentication();
   const router = useRouter();
 
@@ -28,7 +28,7 @@ export default function Home() {
     <DefaultPageStructure>
       <div className="grow w-[100%] flex flex-col items-center justify-center gap-[2.5rem]">
         <div className="flex flex-col items-center gap-[1.5rem]">
-          <Image src="/logo.svg" width={75} height={75} alt="Logo" />
+          <Image src="/logo.svg" width={75} height={75} alt="App Logo" />
           <PageTitle text="Sign in to your account" />
         </div>
 
@@ -37,6 +37,7 @@ export default function Home() {
           onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
             handleSubmitForm(e)
           }
+          aria-label="Sign in form"
         >
           <EmailInput
             id="email-input"
@@ -61,4 +62,6 @@ export default function Home() {
       </div>
     </DefaultPageStructure>
   );
-}
+};
+
+export default Home;

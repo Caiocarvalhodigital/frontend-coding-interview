@@ -7,8 +7,9 @@ import { useAuthentication } from "@/contexts/authContext";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { FaCircleNotch } from "react-icons/fa6";
 
-export default function PhotosPage() {
+const PhotosPage = () => {
   const { isAuthenticated, hasAuthenticationLoaded } = useAuthentication();
   const router = useRouter();
 
@@ -18,13 +19,23 @@ export default function PhotosPage() {
     }
   }, [hasAuthenticationLoaded, isAuthenticated]);
 
-  if (!isAuthenticated || !hasAuthenticationLoaded) return null;
+  if (!hasAuthenticationLoaded) {
+    return (
+      <DefaultPageStructure>
+        <div className="grow w-[100%] flex flex-col justify-center items-center">
+          <FaCircleNotch className="text-[2rem] text-blue animate-spin" />
+        </div>
+      </DefaultPageStructure>
+    );
+  }
+
+  if (!isAuthenticated) return null;
 
   return (
     <DefaultPageStructure>
       <div className="grow w-[100%] max-w-[31.25rem] flex flex-col gap-[2.5rem]">
         <div className="w-[100%] flex flex-col gap-[1.5rem]">
-          <Image src="/logo.svg" width={75} height={75} alt="Logo" />
+          <Image src="/logo.svg" width={75} height={75} alt="App Logo" />
 
           <PageTitle text="All photos" />
         </div>
@@ -33,4 +44,6 @@ export default function PhotosPage() {
       </div>
     </DefaultPageStructure>
   );
-}
+};
+
+export default PhotosPage;

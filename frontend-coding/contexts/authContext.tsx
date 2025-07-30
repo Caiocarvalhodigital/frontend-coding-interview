@@ -2,9 +2,11 @@
 import { AuthContextI } from "@/interfaces";
 import { createContext, useContext, useEffect, useState } from "react";
 
-const AuthenticationContext = createContext<AuthContextI | undefined>(
-  undefined
-);
+const AuthenticationContext = createContext<AuthContextI>({
+  isAuthenticated: false,
+  hasAuthenticationLoaded: false,
+  login: () => {},
+});
 
 export const AuthenticationProvider = ({
   children,
@@ -15,9 +17,14 @@ export const AuthenticationProvider = ({
   const [hasAuthenticationLoaded, setHasAuthenticationLoaded] = useState(false);
 
   useEffect(() => {
-    const localStoredAuthentication = localStorage.getItem("isAuthenticated");
-    setIsAuthenticated(localStoredAuthentication === "true");
-    setHasAuthenticationLoaded(true);
+    try {
+      const localStoredAuthentication = localStorage.getItem("isAuthenticated");
+      setIsAuthenticated(localStoredAuthentication === "true");
+    } catch (error) {
+      console.error("Error accessing localStorage:", error);
+    } finally {
+      setHasAuthenticationLoaded(true);
+    }
   }, []);
 
   const login = () => {
@@ -37,7 +44,7 @@ export const AuthenticationProvider = ({
 export const useAuthentication = () => {
   const context = useContext(AuthenticationContext);
   if (!context) {
-    throw new Error("Context error");
+    throw new Error("Error on authentication context provider");
   }
   return context;
 };

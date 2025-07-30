@@ -1,7 +1,7 @@
 "use client";
 
 import { PhotosI } from "@/interfaces";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { FaCircleNotch } from "react-icons/fa6";
 import PhotoCard from "@/components/photoCard";
 
@@ -9,26 +9,26 @@ const PhotosDisplay = () => {
   const [photos, setPhotos] = useState<PhotosI[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchPhotos = async () => {
-      try {
-        const photosResponse = await fetch("/api/photos");
+  const fetchPhotos = useCallback(async () => {
+    try {
+      const photosResponse = await fetch("/api/photos");
 
-        if (!photosResponse.ok) {
-          const responseError = await photosResponse.json();
-          console.error(responseError.message);
-          return;
-        }
-
-        const data = await photosResponse.json();
-        setPhotos(data.photos);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
+      if (!photosResponse.ok) {
+        const responseError = await photosResponse.json();
+        console.error(responseError.message);
+        return;
       }
-    };
 
+      const data = await photosResponse.json();
+      setPhotos(data.photos);
+    } catch (error) {
+      console.error("Error fetching photos:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
     fetchPhotos();
   }, []);
 
